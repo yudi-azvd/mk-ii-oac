@@ -1,0 +1,8 @@
+Ponha os bmp's na pasta imagens
+Execute o convertallimages.exe
+Escolha o conversor 
+Pronto!
+
+###################################################################
+ATENÇÃO: PARA UM NOVO USO EXCLUA OS ARQUIVOS GERADO PELO CONVERSOR#
+###################################################################
