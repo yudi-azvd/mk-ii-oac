@@ -21,27 +21,24 @@ frameToShow: .byte 0
 	li tp,0x100
  	csrrw zero,4,tp		# habilita a interrupção do usuário
 
- 	li s11,0xFF200000	# Endereço de controle do KDMMIO
-	li t0,0x02		# bit 1 habilita/desabilita a interrupção
-	sw t0,0(s11)   		# Habilita interrupção do teclado
-  	li s10, 0
-  	
   	# preenche o fundo
   	la t0, framePtr
   	lw a0, 0(t0)
   	lw a1, 4(t0)
   	la a2, bg
-  	#jal IMPRIME_TELA
-  	#jal ESCOLHEFRAME
+  	jal IMPRIME_TELA
+  	jal ESCOLHEFRAME
   	la t0, framePtr
   	lw a0, 0(t0)
   	lw a1, 4(t0)
   	la a2, bg
-  	#jal IMPRIME_TELA
-  	#jal ESCOLHEFRAME
+  	jal IMPRIME_TELA
+  	jal ESCOLHEFRAME
   	# sera q compensa fazer um proc pra isso ?
   	
-  	#jal TROCAFRAME
+  	#imprime o jogador na pos inicial
+  	# t0 e t1 eh a pos inicial
+  	jal TROCAFRAME
   	li t0, 130
   	li t1, 320
   	mul t0, t0, t1
@@ -50,6 +47,11 @@ frameToShow: .byte 0
 	la a1, idle1
 	jal imprimeJ	
      
+     	li s11,0xFF200000	# Endereço de controle do KDMMIO
+	li t0,0x02		# bit 1 habilita/desabilita a interrupção
+	sw t0,0(s11)   		# Habilita interrupção do teclado
+  	li s10, 0
+
 	li s0,0			# zera contador
 CONTA:	addi s0,s0,1 		# incrementa contador
 	
@@ -58,27 +60,48 @@ CONTA:	addi s0,s0,1 		# incrementa contador
 	bne s10,t0, CONTA
 	mv s10, zero
 	
+	# desativa a interrupcao do teclado
+	li t0,0x0		# bit 1 habilita/desabilita a interrupção
+	sw t0,0(s11)   		# Habilita interrupção do teclado
+  	
+	
 	# o codigo aqui embaixo imprime o sprite na nova posicao
+	
+	# se eu descomentar isso fica picotado a imagem
+	#mv a0, s2
+	#la a1, idle1
+	#la a2, bg
+	#jal limpaJ
 	
 	addi s2, s2, 4		# adiciona +4 pra fazer ele andar
 	jal ESCOLHEFRAME
 	
+	#isso aqui ficou inutil por enquanto
+	#addi a0, s2, -4
+	#mv a0, s2
+	#la a1, idle1
+	#la a2, bg
+	#jal limpaJ
+	#jal TROCAFRAME
 	mv a0, s2
 	la a1, idle1
 	jal imprimeJ
 	jal TROCAFRAME
 	
 	#o codigo abaixo limpa o ultimo sprite do jogador
-	addi s2, s2, -4
+	#addi s2, s2, -4
 	jal ESCOLHEFRAME
 	
-	mv a0, s2
+	addi a0, s2, -4
 	la a1, idle1
 	la a2, bg
 	jal limpaJ
-	addi s2, s2, 4
+	#addi s2, s2, 4
 	jal ESCOLHEFRAME
 	
+	# ativa a interrupcao do teclado
+	li t0,0x02		# bit 1 habilita/desabilita a interrupção
+	sw t0,0(s11)   		# Habilita interrupção do teclado
 	j CONTA			# volta ao loop
 
 

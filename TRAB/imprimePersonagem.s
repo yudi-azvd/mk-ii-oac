@@ -95,8 +95,8 @@ limpaJ:
 	sw s5, 20(sp)
 	sw s6, 24(sp)
 	
-	mv s0, 	a1	#idle1 #endereco do perso q vou printar
-	mv s1,	a0	#0xFF000000 # coordenada do bitmap display
+	mv s0, 	a1	#endereco do perso q vou printar
+	mv s1,	a0	# coordenada do bitmap display
 	
 	la t0, framePtr
 	lw t0, 0(t0)
