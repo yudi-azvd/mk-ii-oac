@@ -5,7 +5,7 @@
 .eqv VGAFRAMESELECT 0xFF200604
 
 .data
-framePtr: .word 0xFF000000, 0xFF012C00
+framePtr: .word 0xFF000000, 0xFF012C00, 0xFF100000, 0xFF112C00 
 frameToShow: .byte 0
 
 .include "./img/idle1.s"
@@ -20,29 +20,33 @@ frameToShow: .byte 0
  	csrrsi zero,0,1 	# seta o bit de habilitação de interrupção global em ustatus (reg 0)
 	li tp,0x100
  	csrrw zero,4,tp		# habilita a interrupção do usuário
-
+	
+	#faz a primeira frame ser 0
+	li t0, VGAFRAMESELECT
+	sw zero, 0(t0)
+	
   	# preenche o fundo
   	la t0, framePtr
   	lw a0, 0(t0)
   	lw a1, 4(t0)
   	la a2, bg
   	jal IMPRIME_TELA
-  	jal ESCOLHEFRAME
   	la t0, framePtr
-  	lw a0, 0(t0)
-  	lw a1, 4(t0)
+  	lw a0, 8(t0)
+  	lw a1, 12(t0)
   	la a2, bg
   	jal IMPRIME_TELA
-  	jal ESCOLHEFRAME
   	# sera q compensa fazer um proc pra isso ?
   	
   	#imprime o jogador na pos inicial
   	# t0 e t1 eh a pos inicial
-  	jal TROCAFRAME
+  	#jal TROCAFRAME
   	li t0, 130
   	li t1, 320
   	mul t0, t0, t1
 	mv s2, t0			# s2 eh o end do bitmapdisplay
+	la a2, framePtr
+	lw a2, 0(a2)
 	mv a0, s2
 	la a1, idle1
 	jal imprimeJ	
@@ -66,38 +70,27 @@ CONTA:	addi s0,s0,1 		# incrementa contador
   	
 	
 	# o codigo aqui embaixo imprime o sprite na nova posicao
-	
-	# se eu descomentar isso fica picotado a imagem
-	#mv a0, s2
-	#la a1, idle1
-	#la a2, bg
-	#jal limpaJ
-	
+		
 	addi s2, s2, 4		# adiciona +4 pra fazer ele andar
-	jal ESCOLHEFRAME
-	
-	#isso aqui ficou inutil por enquanto
-	#addi a0, s2, -4
-	#mv a0, s2
-	#la a1, idle1
-	#la a2, bg
-	#jal limpaJ
-	#jal TROCAFRAME
+
+	la t0, framePtr
+	lw t0, 8(t0)
+	mv a2, t0
 	mv a0, s2
 	la a1, idle1
 	jal imprimeJ
-	jal TROCAFRAME
-	
-	#o codigo abaixo limpa o ultimo sprite do jogador
-	#addi s2, s2, -4
+	#jal TROCAFRAME
 	jal ESCOLHEFRAME
 	
+	#o codigo abaixo limpa o ultimo sprite do jogador
+	
+	la t0, framePtr
+	lw t0, 8(t0)
+	mv a3, t0
 	addi a0, s2, -4
 	la a1, idle1
 	la a2, bg
 	jal limpaJ
-	#addi s2, s2, 4
-	jal ESCOLHEFRAME
 	
 	# ativa a interrupcao do teclado
 	li t0,0x02		# bit 1 habilita/desabilita a interrupção

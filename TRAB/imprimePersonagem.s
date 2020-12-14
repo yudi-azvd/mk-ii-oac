@@ -30,8 +30,9 @@ imprimeJ:
 	mv s0, 	a1	#endereco do perso q vou printar
 	mv s1,	a0	# a coordenada, ai em baixo eu somo ao endereco
 	
-	la t0, framePtr 
-	lw t0, 0(t0)
+	#la t0, framePtr 
+	#lw t0, 0(t0)
+	mv t0, a2	# a2 qual frame
 	add s1, s1, t0	# endereco no bitmap
 	
 	li s2, 0 	# contador da linha
@@ -98,8 +99,9 @@ limpaJ:
 	mv s0, 	a1	#endereco do perso q vou printar
 	mv s1,	a0	# coordenada do bitmap display
 	
-	la t0, framePtr
-	lw t0, 0(t0)
+	#la t0, framePtr 
+	#lw t0, 0(t0)
+	mv t0, a3	# a2 qual frame
 	add s1, s1, t0
 	
 	mv t0,	a2	# endereco q vou cobrir
