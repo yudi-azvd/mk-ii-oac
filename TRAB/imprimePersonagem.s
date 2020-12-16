@@ -28,6 +28,9 @@ imprimeJ:
 	sw s5, 20(sp)
 	sw s6, 24(sp)
 	
+	# a0 eh a coord no sprite
+	# a1 eh o endereco do personagem
+	
 	mv s0, 	a1	#endereco do perso q vou printar
 	mv s1,	a0	# a coordenada, ai em baixo eu somo ao endereco
 	
@@ -101,7 +104,7 @@ limpaJ:
 	sw s5, 20(sp)
 	sw s6, 24(sp)
 	
-	mv s0, 	a1	#idle1 #endereco do perso q vou printar
+	mv s0, 	a1	#idle1 #endereco do sprite q vou printar
 	mv s1,	a0	#0xFF000000 # coordenada do bitmap display
 	
 	la t0, framePtr
@@ -238,3 +241,4 @@ OITO: la a0, walk9
 	rem t0, t0, t3
 	sb t0, 0(t2)
 	ret
+	
