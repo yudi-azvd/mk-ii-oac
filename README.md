@@ -5,7 +5,7 @@
 Trabalho final de OAC: Mortal Kombat II
 
 ## Navegação e movimentação
-**Navegação**: ao iniciar o jogo, o jogador se depara com as telas de menu. A navegação pode ser feita pela teclas <kbd>w</kbd> (para cima), <kbd>s</kbd> (para baixo) e <kbd>f</kbd> (selecionar).
+**Navegação**: ao iniciar o jogo, o jogador se depara com as telas de menu. A navegação pode ser feita pela teclas <kbd>w</kbd> (para cima), <kbd>s</kbd> (para baixo), <kbd>f</kbd> (selecionar) e <kbd>g</kbd> (voltar).
 
 
 **Movimentação**
